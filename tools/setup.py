@@ -78,13 +78,11 @@ def download():
             os.remove(path_mn)
         if os.path.exists(path_xc):
             os.remove(path_xc)
-        print("Start download model archives!")
         gdown.download(Config.mn_url, path_mn, quiet=False)
         gdown.download(Config.xc_url, path_xc, quiet=False)
         gdown.download(Config.u2_url, os.path.join(Config.u2_dir, "u2net.pth"), quiet=False)
         gdown.download(Config.u2p_url, os.path.join(Config.u2p_dir, "u2netp.pth"), quiet=False)
         gdown.download(Config.bn_url, os.path.join(Config.bn_dir, "basnet.pth"), quiet=False)
-        print("Download finished!")
     except BaseException as e:
         print("Error download model archives! Error:", e)
         exit(1)
@@ -96,21 +94,18 @@ def untar():
     path_mn = os.path.join(Config.mn_dir, Config.arc_name)
     path_xc = os.path.join(Config.xc_dir, Config.arc_name)
     try:
-        print("Start unpacking")
         if path_mn.endswith("tar.gz"):
             tar = tarfile.open(path_mn, "r:gz")
             tar.extractall(path=Config.mn_dir)
             tar.close()
             os.rename(os.path.join(Config.mn_dir, "deeplabv3_mnv2_pascal_train_aug"),
                       os.path.join(Config.mn_dir, "model"))
-            print("Unpacking 1 archive finished!")
         if path_xc.endswith("tar.gz"):
             tar = tarfile.open(path_xc, "r:gz")
             tar.extractall(path=Config.xc_dir)
             tar.close()
             os.rename(os.path.join(Config.xc_dir, "deeplabv3_pascal_train_aug"),
                       os.path.join(Config.xc_dir, "model"))
-            print("Unpacking 2 archive finished!")
     except BaseException as e:
         print("Unpacking error! Error:", e)
         exit(1)
@@ -141,7 +136,6 @@ def setup():
 
 
 def cli():
-    print("Choose which model you want to install:\n{}\nall".format('\n'.join(MODELS_NAMES)))
     model_name = input("Enter model name: ")
     if model_name == "all":
         setup()
@@ -168,7 +162,6 @@ def cli():
             tar.close()
             os.rename(os.path.join(Config.xc_dir, "deeplabv3_pascal_train_aug"),
                       os.path.join(Config.xc_dir, "model"))
-            print("Unpacking archive finished!")
         if os.path.exists(path_xc):
             os.remove(path_xc)
     elif model_name == "mobile_net_model":
@@ -184,13 +177,11 @@ def cli():
             tar.close()
             os.rename(os.path.join(Config.mn_dir, "deeplabv3_mnv2_pascal_train_aug"),
                       os.path.join(Config.mn_dir, "model"))
-            print("Unpacking archive finished!")
         if os.path.exists(path_mn):  # Clean old files
             os.remove(path_mn)
     else:
         print("ERROR! You specified an invalid model type! EXIT!")
         exit(1)
-    print("Setup finished! :)")
 
 
 if __name__ == "__main__":
