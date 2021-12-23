@@ -136,7 +136,7 @@ def setup():
 
 
 def cli():
-    model_name = input("Enter model name: ")
+    model_name = input("")
     if model_name == "all":
         setup()
     elif model_name == "u2net":
